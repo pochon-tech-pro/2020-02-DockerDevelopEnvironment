@@ -162,7 +162,7 @@ PHP binary path: /usr/local/bin/php
 - ネットワークのエラーのようだが、下記を参考にパブリックDNSの設定してみたがだめだった
   - https://github.com/shipping-docker/php-app/issues/36
 - 原因は、httpsを強制する必要があるみたいで、下記を参考にコンテナ内のConfigを変えることで解決した
-　- https://stackoverflow.com/questions/53986012/getting-error-while-installing-laravel-installer-in-window-10
+  - https://stackoverflow.com/questions/53986012/getting-error-while-installing-laravel-installer-in-window-10
 
 ```sh:
 root@eb3201f46687:/var/www# composer config -g repo.packagist composer https://packagist.org
