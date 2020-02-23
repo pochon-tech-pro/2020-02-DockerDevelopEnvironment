@@ -33,3 +33,4 @@ services:
     - DB_DATABASE=db
     - DB_USERNAME=user
     - DB_PASSWORD=pass
+    ports: [ 80:80 ]
