@@ -4,6 +4,51 @@
 
 - 2020/02時点でのDocker開発環境群 (Docker for Mac)
 
+<details>
+<summary>Dockerのコンテナ内に一般ユーザーを作成する方法</summary>
+
+- コンテナ内の操作はすべてroot権限で実行される
+- コンテナ内でコマンドなどで作成したファイルはホスト側から編集できない
+- それでは開発時に都合が悪いので、コンテナにユーザーを作成する
+
+**Dockerfileの中でdockerというユーザーを作成**
+- UID(ユーザーID)とGID(グループID)はホスト側のユーザーと同じにする
+- ホスト側のUIDとGIDはidコマンドで確認できる
+```sh:
+$ id
+uid=1000(username) gid=1000(groupname) ...
+```
+```DockerFile:
+FROM php:7-fpm
+
+# ユーザーを作成
+ARG UID=1000
+RUN useradd -m -u ${UID} docker
+
+# 作成したユーザーに切り替える
+USER ${UID}
+```
+
+**sudoユーザーを追加する場合**
+- sudo権限を付与する場合は以下のようにsudoグループに追加
+  - UID, ユーザー名, パスワードをパラメータにセットして、ユーザーを作成
+  - ユーザー作成後はパスワードを設定
+```DockerFile:
+FROM php:7-fpm
+
+# ユーザーを作成
+ARG DOCKER_UID=1000
+ARG DOCKER_USER=docker
+ARG DOCKER_PASSWORD=docker
+RUN useradd -m --uid ${DOCKER_UID} --groups sudo ${DOCKER_USER} \
+  && echo ${DOCKER_USER}:${DOCKER_PASSWORD} | chpasswd
+
+# 作成したユーザーに切り替える
+USER ${DOCKER_USER}
+```
+
+</details>
+
 ### 2020-NodeJS
 
 - NodeJS開発環境用
