@@ -1,0 +1,18 @@
+version: '3.4'
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-size: "100k"
+    max-file: "3"
+services:
+
+  www:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    logging: *default-logging
+    volumes:
+    - ./www:/var/www
+    - ./vhosts.conf:/etc/apache2/sites-enabled/000-default.conf
+    ports: [ 80:80 ]
