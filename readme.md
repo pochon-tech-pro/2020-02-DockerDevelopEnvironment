@@ -4,6 +4,40 @@
 
 - 2020/02時点でのDocker開発環境群 (Docker for Mac)
 
+**削除系**
+```sh:
+# 停止コンテナ、タグ無しイメージ、未使用ボリューム、未使用ネットワーク一括削除　
+$ docker system prune
+
+# コンテナ一括停止
+$ docker stop $(docker ps -q)
+
+# 停止コンテナ一括削除
+$ docker rm `docker ps -f "status=exited" -q`
+$ docker container prune
+
+# 全コンテナ一括削除
+$ docker rm -f `docker ps -a -q`
+
+# 未使用イメージ一括削除
+$ docker rmi `docker images -q`
+$ docker image prune
+
+# タグ無しイメージ一括削除
+$ docker rmi `docker images -f "dangling=true" -q`
+
+# 全イメージ一括削除
+$ docker rmi `docker images -a -q`
+
+# 未使用ボリューム一括削除
+$ docker volume rm `docker volume ls -q`
+$ docker volume prune
+
+# 未使用ネットワーク一括削除
+$ docker network rm `docker network ls -q`
+$ docker network prune
+```
+
 <details>
 <summary>Dockerのコンテナ内に一般ユーザーを作成する方法</summary>
 
